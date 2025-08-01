@@ -6,7 +6,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ===== Security =====
-SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-secret-key')  # ✅ Must set in Railway ENV
+SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-secret-key')  # ✅ Set this in Railway ENV
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,.railway.app').split(',')
 
@@ -23,14 +23,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
-    # Your app
+    # Your custom app(s)
     'shop',
 ]
 
 # ===== Middleware =====
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ Static file serving
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ Serve static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -46,7 +46,7 @@ ROOT_URLCONF = 'coffee_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # ✅ If you're using custom templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -59,14 +59,16 @@ TEMPLATES = [
     },
 ]
 
-# ===== WSGI =====
+# ===== WSGI Application =====
 WSGI_APPLICATION = 'coffee_project.wsgi.application'
 
 # ===== Database (Railway PostgreSQL) =====
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
+    'default': dj_database_url.config(
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
-# ❌ REMOVE the default='...' with localhost — Railway will set DATABASE_URL
 
 # ===== Password Validation =====
 AUTH_PASSWORD_VALIDATORS = [
@@ -82,17 +84,17 @@ TIME_ZONE = 'Asia/Karachi'
 USE_I18N = True
 USE_TZ = True
 
-# ===== Static Files =====
+# ===== Static Files (CSS, JS) =====
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # For development
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')    # For production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# ===== Media Files =====
+# ===== Media Files (Images, etc) =====
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# ===== Auth & Django Settings =====
+# ===== Auth =====
 LOGIN_URL = '/login/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
