@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Confirmed{% endblock %}
+
+{% block content %}
+<style>
+  .confirmation-container {
+    max-width: 700px;
+    margin: 4rem auto;
+    background: #f9f9f9;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+
+  .confirmation-container h1 {
+    font-size: 2rem;
+    color: #222;
+    margin-bottom: 1rem;
+  }
+
+  .confirmation-container p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+
+  .order-summary {
+    text-align: left;
+    margin-top: 2.5rem;
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.03);
+  }
+
+  .order-summary h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+  }
+
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+    color: #444;
+  }
+
+  .total-line {
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    color: #222;
+  }
+
+  .home-btn {
+    display: inline-block;
+    margin-top: 2.5rem;
+    padding: 0.8rem 2rem;
+    background-color: #f57224;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .home-btn:hover {
+    background-color: #d45c1a;
+  }
+
+  @media (max-width: 600px) {
+    .order-item, .total-line {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+    }
+
+    .home-btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<div class="confirmation-container">
+  <h1>🎉 Thank You for Your Purchase!</h1>
+  <p>Your order has been placed successfully.</p>
+  <p>You’ll receive a confirmation email with your order details shortly.</p>
+
+  <div class="order-summary">
+    <h3>Order Summary</h3>
+    {% for item in order.items.all %}
+      <div class="order-item">
+        <span>{{ item.product.name }} × {{ item.quantity }}</span>
+        <span>Rs {{ item.product.price|floatformat:2 }}</span>
+      </div>
+    {% endfor %}
+    <div class="total-line">
+      <span>Total (incl. tax)</span>
+      <span>Rs {{ order.total|floatformat:2 }}</span>
+    </div>
+  </div>
+
+  <a href="{% url 'products' %}" class="home-btn">Continue Shopping</a>
+</div>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shopping Cart - Professional Store{% endblock %}
+
+{% block content %}
+<style>
+  section.cart-section {
+    background-color: #f5f5f5; /* light gray */
+    color: #333;
+    padding: 3rem 1rem;
+    min-height: 70vh;
+  }
+
+  .cart-container {
+    max-width: 900px;
+    margin: auto;
+    background-color: #fff; /* white */
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  }
+
+  table.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+  }
+
+  table.cart-table th,
+  table.cart-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+  }
+
+  table.cart-table th {
+    background-color: #f0f0f0;
+  }
+
+  table.cart-table img {
+    max-width: 60px;
+    border-radius: 8px;
+  }
+
+  .summary-box {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+
+  .summary-box p {
+    margin: 0.5rem 0;
+    font-weight: 600;
+  }
+
+  .btn {
+    background-color: #b8860b; /* dark goldenrod (light brown) */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #a47507; /* slightly darker brown */
+  }
+
+  .btn-danger {
+    background-color: #cd853f; /* peru (medium brown) */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-danger:hover {
+    background-color: #b07a30; /* darker peru */
+  }
+
+  .empty-cart {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 3rem;
+    color: #555;
+  }
+</style>
+
+<section class="cart-section">
+  <div class="cart-container">
+    <h1>Shopping Cart</h1>
+
+    {% if order_items %}
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in order_items %}
+            {% with item=entry.item %}
+              <tr>
+                <td>
+                  {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                  {% else %}
+                    <img src="{% static 'default-product.png' %}" alt="No Image" style="max-width:60px; border-radius:8px;">
+                  {% endif %}
+                </td>
+                <td>{{ item.product.name }}</td>
+                <td>Rs. {{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>Rs. {{ entry.total_price }}</td>
+                <td>
+                  <a href="{% url 'remove_from_cart' item.id %}" class="btn-danger">Remove</a>
+                </td>
+              </tr>
+            {% endwith %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="summary-box">
+        <p><strong>Subtotal:</strong> Rs. {{ total_price|floatformat:2 }}</p>
+        <p><strong>Tax (8%):</strong> Rs. {{ tax|floatformat:2 }}</p>
+        <p><strong>Total with Tax:</strong> Rs. {{ total_with_tax|floatformat:2 }}</p>
+      </div>
+
+      <a href="{% url 'products' %}" class="btn">Continue Shopping</a>
+      <a href="{% url 'checkout' %}" class="btn">Proceed to Checkout</a>
+    {% else %}
+      <p class="empty-cart">Your cart is empty. <a href="{% url 'products' %}" class="btn">Start Shopping</a></p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

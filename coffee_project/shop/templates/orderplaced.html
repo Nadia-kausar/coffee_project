@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Placed{% endblock %}
+
+{% block content %}
+<style>
+  .order-confirmation {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 30px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.06);
+  }
+
+  .order-confirmation h1 {
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .order-confirmation p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .order-summary {
+    margin-top: 30px;
+    text-align: left;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+  }
+
+  .order-summary h3 {
+    font-size: 1.4rem;
+    color: #444;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    color: #444;
+    font-size: 1rem;
+  }
+
+  .total-line {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .shop-more-btn {
+    margin-top: 30px;
+    padding: 12px 24px;
+    background-color: #f57224;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease;
+  }
+
+  .shop-more-btn:hover {
+    background-color: #d85c1c;
+  }
+
+  @media (max-width: 600px) {
+    .order-item, .total-line {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .order-item span, .total-line span {
+      margin-bottom: 5px;
+    }
+  }
+</style>
+
+<div class="order-confirmation">
+  <h1>🎉 Thank You for Your Purchase!</h1>
+  <p>Your order has been successfully placed. We will notify you when it's out for delivery.</p>
+
+  <div class="order-summary">
+    <h3>Order Summary</h3>
+    {% for item in order.items.all %}
+      <div class="order-item">
+        <span>{{ item.product.name }} × {{ item.quantity }}</span>
+        <span>Rs {{ item.product.price|floatformat:2 }}</span>
+      </div>
+    {% endfor %}
+    <div class="total-line">
+      <span>Total</span>
+      <span>Rs {{ order.total|floatformat:2 }}</span>
+    </div>
+  </div>
+
+  <a href="{% url 'products' %}" class="shop-more-btn">← Shop More</a>
+</div>
+{% endblock %}
