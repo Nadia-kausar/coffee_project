@@ -1,14 +1,13 @@
 from pathlib import Path
 import os
-import dj_database_url
 
 # ===== Base Directory =====
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ===== Security =====
-SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-secret-key')  # ✅ Set this in Railway ENV
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost,.railway.app').split(',')
+SECRET_KEY = 'django-insecure-k=)s4-e5veur@jdg5ral7s12@j!_b@f-m%2qli5igmxc(!q3)7'
+DEBUG = True
+ALLOWED_HOSTS = []
 
 # ===== Installed Applications =====
 INSTALLED_APPS = [
@@ -23,14 +22,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
-    # Your custom app(s)
+    # Your app
     'shop',
 ]
 
 # ===== Middleware =====
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ Serve static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -42,11 +40,11 @@ MIDDLEWARE = [
 # ===== URL Configuration =====
 ROOT_URLCONF = 'coffee_project.urls'
 
-# ===== Templates =====
+# ===== Templates Configuration =====
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # ✅ If you're using custom templates
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -59,15 +57,19 @@ TEMPLATES = [
     },
 ]
 
-# ===== WSGI Application =====
+# ===== WSGI =====
 WSGI_APPLICATION = 'coffee_project.wsgi.application'
 
-# ===== Database (Railway PostgreSQL) =====
+# ===== Database (PostgreSQL) =====
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'coffeedb',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 # ===== Password Validation =====
@@ -84,26 +86,27 @@ TIME_ZONE = 'Asia/Karachi'
 USE_I18N = True
 USE_TZ = True
 
-# ===== Static Files (CSS, JS) =====
+# ===== Static Files =====
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # For development
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')    # For production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ===== Media Files (Images, etc) =====
+# ===== Media Files =====
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# ===== Auth =====
-LOGIN_URL = '/login/'
+# ===== Default Primary Key Type =====
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ===== Django REST Framework =====
+# ===== Login URL =====
+LOGIN_URL = '/login/'
+
+# ===== REST Framework Configuration =====
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',  # 👈 Optional, to protect APIs by default
     ],
 }

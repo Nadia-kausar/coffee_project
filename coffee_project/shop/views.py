@@ -52,14 +52,23 @@ def signup(request):
     return render(request, 'signup.html')
 
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(request, username=email, password=password)
 
-        if user:
+        try:
+            user = User.objects.get(username=email)  # since you saved email as username
+        except User.DoesNotExist:
+            messages.error(request, "No account found with this email.")
+            return redirect('login')
+
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
             login(request, user)
-            messages.success(request, "Logged in successfully.")
+            messages.success(request, f"Welcome back, {user.first_name}!")
             return redirect('home')
         else:
             messages.error(request, "Invalid email or password.")
@@ -129,7 +138,6 @@ def cart_view(request):
             'total_with_tax': Decimal('0.00'),
         })
 
-    # Prepare list of dicts with item and total price for each
     order_items_with_totals = []
     for item in order.items.all():
         total_price = item.product.price * item.quantity
