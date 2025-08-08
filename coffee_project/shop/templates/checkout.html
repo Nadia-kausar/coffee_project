@@ -5,96 +5,122 @@
 
 {% block content %}
 <style>
+/* === Confirmation Page Styling (Enhanced Daraz Style) === */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f6f6f6;
+}
+
+.confirmation-container {
+  max-width: 800px;
+  margin: 70px auto;
+  background: #fff;
+  padding: 45px 35px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  border-top: 5px solid #f57224;
+}
+
+.confirmation-container h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #2b2b2b;
+  margin-bottom: 16px;
+}
+
+.confirmation-container p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* === Order Summary Box === */
+.order-summary {
+  margin-top: 40px;
+  text-align: left;
+  background-color: #fcfcfc;
+  padding: 25px 22px;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+}
+
+.order-summary h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #f57224;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed #ddd;
+  font-size: 15px;
+  color: #444;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.total-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 22px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #f57224;
+}
+
+/* === Action Button === */
+.home-btn {
+  display: inline-block;
+  margin-top: 40px;
+  padding: 14px 34px;
+  background: linear-gradient(90deg, #f57224, #e6591c);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.home-btn:hover {
+  background: linear-gradient(90deg, #e65c1a, #cc4f15);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
   .confirmation-container {
-    max-width: 700px;
-    margin: 4rem auto;
-    background: #f9f9f9;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.08);
-    text-align: center;
+    padding: 28px 20px;
   }
 
-  .confirmation-container h1 {
-    font-size: 2rem;
-    color: #222;
-    margin-bottom: 1rem;
-  }
-
-  .confirmation-container p {
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 0.5rem;
-  }
-
-  .order-summary {
-    text-align: left;
-    margin-top: 2.5rem;
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.03);
-  }
-
-  .order-summary h3 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: #333;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 0.5rem;
-  }
-
-  .order-item {
-    display: flex;
-    justify-content: space-between;
-    margin: 0.5rem 0;
-    font-size: 0.95rem;
-    color: #444;
-  }
-
+  .order-item,
   .total-line {
-    margin-top: 1rem;
-    font-weight: bold;
-    font-size: 1.1rem;
-    display: flex;
-    justify-content: space-between;
-    color: #222;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 
   .home-btn {
-    display: inline-block;
-    margin-top: 2.5rem;
-    padding: 0.8rem 2rem;
-    background-color: #f57224;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
   }
-
-  .home-btn:hover {
-    background-color: #d45c1a;
-  }
-
-  @media (max-width: 600px) {
-    .order-item, .total-line {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.2rem;
-    }
-
-    .home-btn {
-      width: 100%;
-      text-align: center;
-    }
-  }
+}
 </style>
 
 <div class="confirmation-container">
-  <h1>🎉 Thank You for Your Purchase!</h1>
-  <p>Your order has been placed successfully.</p>
-  <p>You’ll receive a confirmation email with your order details shortly.</p>
+  <h1>Thank You for Your Order!</h1>
+  <p>Your order has been successfully placed.</p>
+  <p>You’ll receive a confirmation email shortly with all the details.</p>
 
   <div class="order-summary">
     <h3>Order Summary</h3>

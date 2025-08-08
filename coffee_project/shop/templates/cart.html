@@ -5,98 +5,204 @@
 
 {% block content %}
 <style>
-  section.cart-section {
-    background-color: #f5f5f5; /* light gray */
-    color: #333;
-    padding: 3rem 1rem;
-    min-height: 70vh;
+/* ===== Global Section ===== */
+.cart-section {
+  background-color: #f2f3f5;
+  padding: 40px 20px;
+  min-height: 80vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* ===== Container ===== */
+.cart-container {
+  max-width: 1200px;
+  margin: auto;
+  background-color: #fff;
+  padding: 30px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+/* ===== Title ===== */
+.cart-container h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #f0c14b;
+  padding-bottom: 10px;
+}
+
+/* ===== Cart Table ===== */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cart-table thead {
+  background-color: #f7f7f7;
+  text-transform: uppercase;
+}
+
+.cart-table thead th {
+  padding: 12px 10px;
+  font-size: 13px;
+  color: #555;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+}
+
+.cart-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.cart-table td {
+  padding: 16px 10px;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #333;
+}
+
+/* ===== Product Cell ===== */
+.cart-product {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.cart-product img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+.cart-product-name {
+  font-weight: 500;
+  color: #222;
+}
+
+/* ===== Prices ===== */
+.price,
+.total {
+  font-weight: 600;
+  color: #ff6f00;
+  text-align: right;
+}
+
+/* ===== Quantity ===== */
+.quantity {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ===== Remove Button ===== */
+.btn-danger {
+  background: #ff5252;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.btn-danger:hover {
+  background: #e53935;
+}
+
+/* ===== Summary Box ===== */
+.summary-box {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  background-color: #fafafa;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #444;
+}
+
+.summary-box p {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.summary-box p strong {
+  color: #111;
+}
+
+/* ===== Action Buttons ===== */
+.actions {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.btn {
+  background-color: #ff6f00;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+}
+.btn:hover {
+  background-color: #e65c00;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* ===== Empty Cart ===== */
+.empty-cart {
+  text-align: center;
+  font-size: 18px;
+  color: #777;
+  margin-top: 60px;
+}
+
+.empty-cart a.btn {
+  margin-top: 20px;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .cart-table thead {
+    display: none;
   }
 
-  .cart-container {
-    max-width: 900px;
-    margin: auto;
-    background-color: #fff; /* white */
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* subtle shadow */
-  }
-
-  table.cart-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1.5rem;
-  }
-
-  table.cart-table th,
-  table.cart-table td {
+  .cart-table tbody tr {
+    display: block;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    border-radius: 6px;
     padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-    color: #333;
+    background-color: #fff;
   }
 
-  table.cart-table th {
-    background-color: #f0f0f0;
+  .cart-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
   }
 
-  table.cart-table img {
-    max-width: 60px;
-    border-radius: 8px;
+  .price,
+  .total {
+    text-align: left;
   }
 
-  .summary-box {
-    background-color: #f9f9f9;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-top: 1rem;
-    color: #333;
-    border: 1px solid #ddd;
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
   }
-
-  .summary-box p {
-    margin: 0.5rem 0;
-    font-weight: 600;
-  }
-
-  .btn {
-    background-color: #b8860b; /* dark goldenrod (light brown) */
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 1rem;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-  }
-
-  .btn:hover {
-    background-color: #a47507; /* slightly darker brown */
-  }
-
-  .btn-danger {
-    background-color: #cd853f; /* peru (medium brown) */
-    color: white;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-
-  .btn-danger:hover {
-    background-color: #b07a30; /* darker peru */
-  }
-
-  .empty-cart {
-    text-align: center;
-    font-size: 1.5rem;
-    margin-top: 3rem;
-    color: #555;
-  }
+}
 </style>
 
 <section class="cart-section">
@@ -107,12 +213,11 @@
       <table class="cart-table">
         <thead>
           <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
+            <th>Product</th>
+            <th class="price">Price</th>
             <th>Quantity</th>
-            <th>Total</th>
-            <th>Remove</th>
+            <th class="total">Total</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -120,16 +225,18 @@
             {% with item=entry.item %}
               <tr>
                 <td>
-                  {% if item.product.image %}
-                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-                  {% else %}
-                    <img src="{% static 'default-product.png' %}" alt="No Image" style="max-width:60px; border-radius:8px;">
-                  {% endif %}
+                  <div class="cart-product">
+                    {% if item.product.image %}
+                      <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                    {% else %}
+                      <img src="{% static 'default-product.png' %}" alt="No Image">
+                    {% endif %}
+                    <span class="cart-product-name">{{ item.product.name }}</span>
+                  </div>
                 </td>
-                <td>{{ item.product.name }}</td>
-                <td>Rs. {{ item.product.price }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>Rs. {{ entry.total_price }}</td>
+                <td class="price">Rs. {{ item.product.price }}</td>
+                <td class="quantity">{{ item.quantity }}</td>
+                <td class="total">Rs. {{ entry.total_price }}</td>
                 <td>
                   <a href="{% url 'remove_from_cart' item.id %}" class="btn-danger">Remove</a>
                 </td>
@@ -140,15 +247,20 @@
       </table>
 
       <div class="summary-box">
-        <p><strong>Subtotal:</strong> Rs. {{ total_price|floatformat:2 }}</p>
-        <p><strong>Tax (8%):</strong> Rs. {{ tax|floatformat:2 }}</p>
-        <p><strong>Total with Tax:</strong> Rs. {{ total_with_tax|floatformat:2 }}</p>
+        <p><span><strong>Subtotal:</strong></span><span>Rs. {{ total_price|floatformat:2 }}</span></p>
+        <p><span><strong>Tax (8%):</strong></span><span>Rs. {{ tax|floatformat:2 }}</span></p>
+        <p><span><strong>Total with Tax:</strong></span><span>Rs. {{ total_with_tax|floatformat:2 }}</span></p>
       </div>
 
-      <a href="{% url 'products' %}" class="btn">Continue Shopping</a>
-      <a href="{% url 'checkout' %}" class="btn">Proceed to Checkout</a>
+      <div class="actions">
+        <a href="{% url 'products' %}" class="btn">Continue Shopping</a>
+        <a href="{% url 'checkout' %}" class="btn">Proceed to Checkout</a>
+      </div>
     {% else %}
-      <p class="empty-cart">Your cart is empty. <a href="{% url 'products' %}" class="btn">Start Shopping</a></p>
+      <div class="empty-cart">
+        <p>Your cart is empty.</p>
+        <a href="{% url 'products' %}" class="btn">Start Shopping</a>
+      </div>
     {% endif %}
   </div>
 </section>
